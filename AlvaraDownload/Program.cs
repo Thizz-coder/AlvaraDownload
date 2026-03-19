@@ -1,8 +1,13 @@
-﻿using ClosedXML.Excel;
+﻿using Helpdesk.Utils;
+using System;
 
-using var workbook = new XLWorkbook("C:\\Users\\thiag\\Downloads\\AlvasBlumenau.xlsx");
-var ws = workbook.Worksheet(1);
+namespace AlvaraDownload
+{
+    internal async Task Main(string[] args)
+    {
+        LogWriter logWriter = new LogWriter();
+        logWriter.WriteLog("-----------------------------------IniciandoExecução-----------------------------------");
 
-var valor = ws.Cell(1, 1).GetString();
-
-Console.WriteLine(valor);
+        Robot 
+    } 
+}
