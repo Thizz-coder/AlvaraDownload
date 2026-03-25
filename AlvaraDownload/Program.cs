@@ -3,11 +3,15 @@ using System;
 
 namespace AlvaraDownload
 {
-    internal async Task Main(string[] args)
+    internal class Program
     {
-        LogWriter logWriter = new LogWriter();
-        logWriter.WriteLog("-----------------------------------IniciandoExecução-----------------------------------");
+        static async Task Main(string[] args)
+        {
+            LogWriter logWriter = new LogWriter();
+            logWriter.WriteLog("-----------------------------------IniciandoExecução-----------------------------------");
 
-        Robot 
-    } 
+            Robot robot = new Robot();
+            await robot.Executar();
+        }
+    }
 }
