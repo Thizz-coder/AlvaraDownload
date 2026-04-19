@@ -5,30 +5,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AlvaraDownload.Services.Web;
 
 namespace AlvaraDownload
 {
     public class Robot
     {
-        public async Task Executar()
+        public async Task Executar() 
         {
 
             var excelService = new ExcelReaderService();
+            Console.WriteLine("INICIANDO LEITURA");
             var lista = excelService.Ler("C:\\Automations\\teste\\AlvarasDonwloadExcel.xlsx");
 
-            Console.WriteLine("INICIANDO LEITURA");
+            AlvaraService alvaraService = new AlvaraService();
 
-            foreach(var item in lista)
+            foreach (var item in lista)
             {
-                Console.WriteLine($"Processando CNPJ: {item.Cnpj} e Nome Empresa:{item.NomeEmpresa}");
+                
+                await alvaraService.DownloadAlvara(item.Cnpj, item.NomeEmpresa);
             }
-            Console.WriteLine($"LEITURA FINALIZADA TOTAL: {lista.Count}");
+            
 
 
             //ler excel 
             //loop cnpj
             //processar
-            //salvar processe
+            //salvar processos
         }
     }
 }
