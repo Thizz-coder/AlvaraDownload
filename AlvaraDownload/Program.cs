@@ -1,5 +1,10 @@
 ﻿using Helpdesk.Utils;
 using System;
+using Microsoft.Playwright;
+
+
+
+
 
 namespace AlvaraDownload
 {
@@ -7,11 +12,25 @@ namespace AlvaraDownload
     {
         static async Task Main(string[] args)
         {
-            LogWriter logWriter = new LogWriter();
-            logWriter.WriteLog("-----------------------------------IniciandoExecução-----------------------------------");
+            try
+            {
+                LogWriter logWriter = new LogWriter();
+                logWriter.WriteLog("-----------------------------------IniciandoExecução-----------------------------------");
 
-            Robot robot = new Robot();
-            await robot.Executar();
+                var exitCode = Microsoft.Playwright.Program.Main(new[] { "install", "chromium" });
+
+                if (exitCode != 0)
+                {
+                    throw new Exception("Falha ao instalar o Chromium do Playwright.");
+                }
+
+                Robot robot = new Robot();
+                await robot.Executar();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao iniciar o robô: {ex.Message}");
+            }
         }
     }
 }

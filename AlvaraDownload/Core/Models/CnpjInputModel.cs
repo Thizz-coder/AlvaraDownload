@@ -10,5 +10,6 @@ namespace AlvaraDownload.Core.Models
     {
         public string Cnpj { get; set; }
         public string NomeEmpresa { get; set; }
+        public int LinhaExcel { get; set; }
     }
 }

@@ -20,13 +20,11 @@ namespace AlvaraDownload.Services.Excel
                 var rows = worksheet.RowsUsed().Skip(1); // Pula o cabeçalho
                 foreach(var row in rows)
                 {
-                    var cnpj = row.Cell(2).GetValue<string>();
-                    var nome = row.Cell(1).GetValue<string>();
-
                     lista.Add(new CnpjInputModel
                     {
-                        Cnpj = cnpj,
-                        NomeEmpresa = nome
+                        NomeEmpresa = row.Cell(1).GetValue<string>(),
+                        Cnpj = row.Cell(2).GetValue<string>(),
+                        LinhaExcel = row.RowNumber()
                     });
 
                 }
