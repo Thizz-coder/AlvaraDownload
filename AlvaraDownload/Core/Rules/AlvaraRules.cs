@@ -12,7 +12,9 @@ namespace AlvaraDownload.Core.Rules
         public const string StatusDownloadConcluidoComOutros = "Donwload concluído, existem outros alvarás em aberto";
         public const string StatusNenhumEmAberto = "Nenhum alvará em situação em aberto";
         public const string StatusErro = "Erro ao processar o download por gentileza verificar manualmente o CNPJ";
-        
+        public const string StatusExisteOutroEmAbertoMasPrimeiraNao = "Existe alvará em aberto em outra linha, porém a primeira linha não está em aberto";
+
+
         public static bool EstaEmAberto(string situacao)
         {
             return !string.IsNullOrWhiteSpace(situacao)

@@ -91,9 +91,12 @@ namespace AlvaraDownload.Services.Web
                     return new ResultadoDownloadAlvaraModel
                     {
                         Sucesso = true,
-                        StatusExcel = AlvaraRules.StatusNenhumEmAberto
+                        StatusExcel = existeOutroEmAberto
+                            ? AlvaraRules.StatusExisteOutroEmAbertoMasPrimeiraNao
+                            : AlvaraRules.StatusNenhumEmAberto
                     };
                 }
+
 
 
                 await page.Locator("#ctl00_ContentBody_callbackPanelGeral_gvLancamentos_DXSelBtn0_D").ClickAsync();
