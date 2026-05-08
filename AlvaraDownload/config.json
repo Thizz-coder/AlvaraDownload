@@ -1,0 +1,6 @@
+{
+  "CaminhoExcel": "C:\\Automations\\teste\\AlvarasDonwloadExcel.xlsx",
+  "PastaDownload": "C:\\Temp_Alvara",
+  "UrlPortal": "https://www.blumenau.sc.gov.br/cidadao/",
+  "Headless": false
+}

@@ -12,6 +12,16 @@ namespace AlvaraDownload.Services.Web
 {
     class AlvaraService
     {
+
+        private readonly ConfigModel _config;
+
+        public AlvaraService(ConfigModel config)
+        {
+            _config = config;
+        }
+
+
+
         public async Task<ResultadoDownloadAlvaraModel> DownloadAlvara(string cnpj, string nomeEmpresa)
         {
             try
@@ -22,7 +32,7 @@ namespace AlvaraDownload.Services.Web
 
                 await using var browser = await playwright.Chromium.LaunchAsync(new()
                 {
-                    Headless = false
+                    Headless = _config.Headless,
                 });
 
                 var context = await browser.NewContextAsync(new()
@@ -36,7 +46,7 @@ namespace AlvaraDownload.Services.Web
 
                 var page = await context.NewPageAsync();
 
-                await page.GotoAsync("https://www.blumenau.sc.gov.br/cidadao/");
+                await page.GotoAsync(_config.UrlPortal);
                 await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
                 await page.GetByText("Alvará Pessoa Juridica").ClickAsync();
@@ -105,7 +115,7 @@ namespace AlvaraDownload.Services.Web
                 var download = await page.RunAndWaitForDownloadAsync(async () =>{await page.GetByText("Imprimir Imprimir").ClickAsync();});
 
                 var fileName = $"{nomeEmpresa}_{cnpj}.pdf";
-                await download.SaveAsAsync(Path.Combine("C:\\Temp_Alvara\\", fileName));
+                await download.SaveAsAsync(Path.Combine(_config.PastaDownload, fileName));
 
                 return new ResultadoDownloadAlvaraModel
                 {
