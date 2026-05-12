@@ -17,6 +17,8 @@ namespace AlvaraDownload
             {
                 LogWriter logWriter = new LogWriter();
                 logWriter.WriteLog("-----------------------------------IniciandoExecução-----------------------------------");
+
+                Console.WriteLine("ROBÔ EM EXECUÇÃO");
                 
                 var configService = new ConfigService();
                 var config = configService.Ler();
@@ -31,6 +33,9 @@ namespace AlvaraDownload
                 
                 Robot robot = new Robot(config);
                 await robot.Executar();
+
+                Console.WriteLine("FIM DE EXECUÇÃO");
+                logWriter.WriteLog("-----------------------------------FimExecução-----------------------------------");
             }
             catch (Exception ex)
             {

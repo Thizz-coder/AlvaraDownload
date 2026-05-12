@@ -13,6 +13,16 @@ namespace AlvaraDownload.Services.Web
     class AlvaraService
     {
 
+        private const string TextoAlvaraPessoaJuridica = "Alvará Pessoa Juridica";
+        private const string TextoBotaoImprimir = "Imprimir Imprimir";
+
+
+        private const string SeletorInputCnpj = "#ctl00_ContentBody_painelPesquisaCpfCmc_tbCpf_I";
+        private const string SeletorLinhasLancamento = "[id*='gvLancamentos_DXDataRow']";
+        private const string SeletorPrimeiroLancamento = "#ctl00_ContentBody_callbackPanelGeral_gvLancamentos_DXSelBtn0_D";
+        private const string SeletorPrimeiraParcela = "#ctl00_ContentBody_callbackPanelGeral_gvParcelas_DXSelBtn0_D";
+
+
         private readonly ConfigModel _config;
 
         public AlvaraService(ConfigModel config)
@@ -49,11 +59,11 @@ namespace AlvaraDownload.Services.Web
                 await page.GotoAsync(_config.UrlPortal);
                 await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-                await page.GetByText("Alvará Pessoa Juridica").ClickAsync();
+                await page.GetByText(TextoAlvaraPessoaJuridica).ClickAsync();
                 
                 Thread.Sleep(6000);
                 
-                await page.Locator("#ctl00_ContentBody_painelPesquisaCpfCmc_tbCpf_I").FillAsync(cnpj);
+                await page.Locator(SeletorInputCnpj).FillAsync(cnpj);
                 
                 Thread.Sleep(6000);
 
@@ -66,9 +76,9 @@ namespace AlvaraDownload.Services.Web
                 Thread.Sleep(6000);
 
 
-                await page.WaitForSelectorAsync("[id*='gvLancamentos_DXDataRow']");
+                await page.WaitForSelectorAsync(SeletorLinhasLancamento);
 
-                var rows = page.Locator("[id*='gvLancamentos_DXDataRow']");
+                var rows = page.Locator(SeletorLinhasLancamento);
                 int count = await rows.CountAsync();
 
                 
@@ -109,10 +119,10 @@ namespace AlvaraDownload.Services.Web
 
 
 
-                await page.Locator("#ctl00_ContentBody_callbackPanelGeral_gvLancamentos_DXSelBtn0_D").ClickAsync();
-                await page.Locator("#ctl00_ContentBody_callbackPanelGeral_gvParcelas_DXSelBtn0_D").ClickAsync();
+                await page.Locator(SeletorPrimeiroLancamento).ClickAsync();
+                await page.Locator(SeletorPrimeiraParcela).ClickAsync();
 
-                var download = await page.RunAndWaitForDownloadAsync(async () =>{await page.GetByText("Imprimir Imprimir").ClickAsync();});
+                var download = await page.RunAndWaitForDownloadAsync(async () =>{await page.GetByText(TextoBotaoImprimir).ClickAsync();});
 
                 var fileName = $"{nomeEmpresa}_{cnpj}.pdf";
                 await download.SaveAsAsync(Path.Combine(_config.PastaDownload, fileName));
@@ -127,56 +137,6 @@ namespace AlvaraDownload.Services.Web
 
 
 
-
-
-
-
-
-
-
-
-
-
-                //if (count == 0)
-                //    return;
-                //Thread.Sleep(2000);
-                //// 🔥 PRIMEIRA LINHA
-                //var primeiraSituacao = (await rows.First
-                //    .Locator("td")
-                //    .Nth(3)
-                //    .InnerTextAsync())
-                //    .Trim();
-
-                //bool baixar = AlvaraRules.EstaEmAberto(primeiraSituacao);
-                //Thread.Sleep(2000);
-                //// 🔍 RESTANTE
-                //bool existeOutro = false;
-
-                //for (int i = 1; i < count && !existeOutro; i++)
-                //{
-                //    var situacao = (await rows.Nth(i).Locator("td").Nth(3).InnerTextAsync()).Trim();
-
-                //    existeOutro = AlvaraRules.EstaEmAberto(situacao);
-                //}
-                //Thread.Sleep(2000);
-                // 🚀 EXECUÇÃO
-                //if (baixar)
-                //{
-                //    await page.Locator("#ctl00_ContentBody_callbackPanelGeral_gvLancamentos_DXSelBtn0_D").ClickAsync();
-                //    await page.Locator("#ctl00_ContentBody_callbackPanelGeral_gvParcelas_DXSelBtn0_D").ClickAsync();
-                //    var download = await page.RunAndWaitForDownloadAsync(async () =>
-                //    {
-                //        await page.GetByText("Imprimir Imprimir").ClickAsync();
-                //    });
-
-                //    var fileName = $"`{nomeEmpresa}_{cnpj}.pdf";
-
-                //    Thread.Sleep(2000);
-                //    await download.SaveAsAsync(Path.Combine("C:\\Temp_Alvara\\", fileName));
-                //    await page.CloseAsync();
-                // }
-
-
             }
             catch (Exception ex)
             {
@@ -188,15 +148,6 @@ namespace AlvaraDownload.Services.Web
                     StatusExcel = AlvaraRules.StatusErro
                 };
             }
-
-
-
-
-
-
-
-
-            
 
         }
 
