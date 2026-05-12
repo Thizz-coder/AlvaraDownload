@@ -125,6 +125,7 @@ namespace AlvaraDownload.Services.Web
                 var download = await page.RunAndWaitForDownloadAsync(async () =>{await page.GetByText(TextoBotaoImprimir).ClickAsync();});
 
                 var fileName = $"{nomeEmpresa}_{cnpj}.pdf";
+                Directory.CreateDirectory(_config.PastaDownload);
                 await download.SaveAsAsync(Path.Combine(_config.PastaDownload, fileName));
 
                 return new ResultadoDownloadAlvaraModel

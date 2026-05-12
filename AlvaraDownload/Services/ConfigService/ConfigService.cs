@@ -27,6 +27,19 @@ namespace AlvaraDownload.Services.ConfigService
             {
                 throw new Exception("Não foi possível carregar o config.json");
             }
+
+            var baseDir = AppContext.BaseDirectory;
+
+            if (!Path.IsPathRooted(config.CaminhoExcel))
+            {
+                config.CaminhoExcel = Path.Combine(baseDir, config.CaminhoExcel);
+            }
+
+            if (!Path.IsPathRooted(config.PastaDownload))
+            {
+                config.PastaDownload = Path.Combine(baseDir, config.PastaDownload);
+            }
+
             return config;
 
         }

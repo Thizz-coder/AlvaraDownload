@@ -11,7 +11,7 @@ namespace Helpdesk.Utils
         private string LogPath;
         public LogWriter()
         {
-            string logFolder = Environment.CurrentDirectory + @"\Logs\";
+            string logFolder = Path.Combine(AppContext.BaseDirectory, "Logs");
             string date = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             LogPath = Path.Combine(logFolder, string.Format("Log_{0}.txt", date));
